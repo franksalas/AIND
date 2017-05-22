@@ -118,5 +118,7 @@ ENV/
 
 
 .ipynb_checkpoints
+/.idea/
+.idea/workspace.xml
 
 # End of https://www.gitignore.io/api/linux,python
