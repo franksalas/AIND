@@ -121,4 +121,18 @@ ENV/
 /.idea/
 .idea/workspace.xml
 
+
+
+
+# OS generated files #
+######################
+*/.DS_Store
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
 # End of https://www.gitignore.io/api/linux,python
