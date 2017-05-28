@@ -1,4 +1,4 @@
-environment## Introduction to AI
+# <center>Introduction to AI Notes </center>
 
 
 ## Navigation
@@ -195,3 +195,5 @@ Given these constrains, we can not expect an agent to always behave optimally, b
 Ex: We want a chess playing program to win 60% of the time against a chess master
 
 - **Bounded Optimality**: Practical and feasible way of quantifying intelligence.
+
+# End
