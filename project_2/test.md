@@ -14,9 +14,6 @@ print("hell world")
 
 $ n = 2_d$
 
-$$
-n = 3^d \\
-e = mc^2
-$$
+$n = 3^d e = mc^2$
 
 ## second title
