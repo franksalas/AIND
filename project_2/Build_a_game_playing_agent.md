@@ -158,7 +158,12 @@ AIMA: Chapter 5.3-5.4
 
 0. Implement the `minimax` algorithm with `Alpha-beta` pruning. This reduces the size of the search space from $b^d$ to $b^{\frac{d}{2}}$. Reducing it from approximately $8^{25}$to $8^{12}$.
 0. Some moves are equivalent.
-![levelb1](images/5x5_board_00.png) **same as** ![levelb1](images/5x5_board_04.png)**same as** ![levelb1](images/5x5_board_44.png) **same as** ![levelb1](images/5x5_board_40.png)
+
+|![levelb1](images/5x5_board_00.png) |![levelb1](images/5x5_board_04.png)|
+|---|---|
+|![levelb1](images/5x5_board_44.png) |![levelb1](images/5x5_board_40.png)   |
+
+
 You can simply rotate the board $90^\circ$ and you have the same board state.
 
 Therefore, if you know the game tree for our first move of $(0,0)$, you know the game tree for our first move of $(0,4)$. wich is the same as  $(4,4)$ and also  $(4,0)$
@@ -169,20 +174,21 @@ For example While player one has 25 possible moves.
 
 |Move   |equivalent values   | rotation|
 |---|---|---|
-|![move 1](images/5x5_board_move1.png)|$[(0,0),(0,4),(4,4),(4,0)]$|rotate $90^\circ$|
-|![move 2](images/5x5_board_move2.png)|$[(0,2),(2,0),(2,4),(4,2)]$|rotate $90^\circ$|
-|![move 3](images/5x5_board_move3.png)|$[(1,1),(1,3),(3,1),(3,3)]$|rotate $90^\circ$|
-|![move 4](images/5x5_board_move4.png)|$[(1,2),(2,3),(3,2),(2,1)]$|rotate $90^\circ$|
-|![move 5](images/5x5_board_move5.png)|<ul><li>$[(1,0),(0,3),(3,4),(4,1)]$</li><li>$[(0,1),(3,0),(4,3),(1,4)]$</li></ul>, |<ul><li>rotate $90^\circ$</li><li>transpose?</li></ul> |
-|![move 6](images/5x5_board_move6.png)| $[(2,2)]$ |no rotation|
+|![move 1](images/5x5_board_move1.png)|`[(0,0),(0,4),(4,4),(4,0)]`|rotate $90^\circ$|
+|![move 2](images/5x5_board_move2.png)|`[(0,2),(2,0),(2,4),(4,2)]`|rotate $90^\circ$|
+|![move 3](images/5x5_board_move3.png)|`[(1,1),(1,3),(3,1),(3,3)]`|rotate $90^\circ$|
+|![move 4](images/5x5_board_move4.png)|`[(1,2),(2,3),(3,2),(2,1)]`|rotate $90^\circ$|
+|![move 5](images/5x5_board_move5.png)|<ul><li>`[(1,0),(0,3),(3,4),(4,1)]`</li><li>`[(0,1),(3,0),(4,3),(1,4)]`</li></ul> |<ul><li>rotate $90^\circ$</li><li>transpose?</li></ul> |
+|![move 6](images/5x5_board_move6.png)| `[(2,2)]`|no rotation|
 
 ## Symmetry
 Symmetry cots down on the number of nodes we have to expand up to **level 3** of the search tree. After that, Symmetry is rare and the amount of effort needed to check for symmetry is not workt it.
 
 You can know the outcome of the gamea as soon as there is a partition.  A partition separate two two players completely. Therefore, the player with the longest path wins.
-| ![levelb1](images/5x5_board_split.png)| <ul><li>Player O has 8 moves</li><li>Player X has 6 moves</li></ul>  |
-|---|---|
 
+
+|![levelb1](images/5x5_board_split.png)|<ul><li>Player O has 8 moves</li><li>Player X has 6 moves</li></ul>|
+|---|---|
 
 ### Aditional notes
 - Player 2 always wins if they play optimally
