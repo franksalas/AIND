@@ -204,3 +204,149 @@ You can know the outcome of the gamea as soon as there is a partition.  A partit
 - You only have a limited amount of time to complete you move
 - After exhausting you book of opening moves, implement minimax then add iterative deepening and finally Alpha-beta pruning.
 - Finally focus on your evaluation Function
+
+## 3 Player Games
+
+### 3 player isolation
+Same as Normal isolation but with 3 players trying to move, ilaicens can be formed but there can be only one winner.
+
+Lets focus on `num_my_moves`. For multiplayer games we don't use **Minimax** anymore. Instead we evaluate the game board form the perspective of each player and propagate the values up the tree.
+![3pgame](images/3pgame.png)
+
+Lets imagine the 3-player isolation game where we search down to the level 3 of the tree.  On the leftmost branch we evaluate the  resulting game board from each of the players perspectives.
+![3pgame](images/branch1.png)
+For player one, the valuation function returns a 1, for player 2 returns a 2 and for player 3 returns a 6.
+
+We evaluate each of the boards nodes at this level and return triples for each of them. then we propigate the values up the tree.
+
+|![3pgame](images/3pgame_level3.png)| at level 3, the max value nodes from leafs are added.       |
+|-----------------------------------|--------|
+|![3pgame](images/3pgame_level2.png)|at level 2 the max nodes for level 2 are added   |
+|![3pgame](images/3pgame_level1.png)|at level 1, the max node according to level 1 is chosen.        |
+
+
+
+
+### Quiz:
+
+![quiz](images/3p_quiz.jpg)
+## 3-Player $\alpha-\beta$ pruning
+
+According to a paper by `Korsh`, pruning can work as long as the values of the players and valuation function, has an upper bound and each player has a lower bound.
+
+For our `num_of_my_moves`, the validation function for isolation, *zero* is a natural lower bound. but what about for upper bound?
+
+If an evaluation function could estimate the number of total moves remaining for each player, it would work because the sum of the number of total moves should not exceed the number of empty squares on the isolation board.
+
+#### Example 1:
+![isolation_board](images/isolation_board.png)
+This board, the limit should be **22**, or around **7** per player.
+The upper bound would change  with each level of the game tree.
+
+### Example 2:
+For this example, We'll say the that the sum of the players  scores cant exceed **10**, and to make things easier, we'll say that the sum has to equal exactly **10**.
+This will allow pruning.
+
+This will allow both immediate pruning and shallow pruning. (no deep pruning )
+
+##### Imeddiate pruning
+
+![quiz](images/AB3pgame.png)
+
+Lets look at the left most bottom branch of the search tree.  Since we know the maximum value is **10**, there is no point in evaluation the next to branches to the right, they can return at most 10, and we already have that option. We can safely ignore them and propagate the values up the tree.
+
+The value of `player 1` could be anywhere form 0 to 10 and the other values will be less than 10
+
+![quiz](images/AB3pgame_level2.png)
+
+At the bottom level of the middle branch, `player 2`  will pick the left most option.
+
+Now we see `player 1` will have a value grater than or equal to three, and since the sum has to be **10**, each of the others are limited to values less than or equal to **7**.
+
+![quiz](images/AB3pgame_level22.png)
+
+But in the next branch over, `player 2` will get a **7** or better.  Which means that `player 1` will get a **3** or less.
+
+Since we already have a **3**, we can prune this last branch, its values will not mater, because we]re going to choose the option we already hae.
+
+![quiz](images/AB3pgame_level222.png)
+
+#
+#### Quiz 3-Player MAX-MAX-MAX Pruning:
+
+Fill in the value ranges for this tree player game tree and select which branches can be pruned.  The maximum combine score is **9**.  In this situation that means  that the sum of all three scores is less than or equal to **9**.  Since we are using  alpha beta, you can enter an exact number like 4 or a range like less than or equal to 4.
+
+IF a branch is pruned, you may only be able to express it's parent's value as a range(e.g <=4). This must propagate up as per MAX-MAX-MAX rules.
+![quiz](images/AB3pgameQUIZ.png)
+
+For the first branch we pick the option where `player 2` has the best score
+
+![quiz](images/AB3pgameQUIZ_1.png)
+
+For the second branch, we'll start with the first leaf node on the left. `player 2` is only concerned with maximizing their own score, so we know they will choose a node where they get greater than or equal to **7**.  Because the scores add up to **9**, this restricts the other scores to at most less than **2**.
+
+However, the next level up is player 1's move and they already have a better choice from the left branch, 3 compared to less than or equal to **2**.  That means that there is no way they will choose this second branch so we'll prune the remaining two nodes.
+
+![quiz](images/AB3pgameQUIZ_2.png)
+
+For the last branch, we can prune the right leaf node for the same reason.
+
+![quiz](images/AB3pgameQUIZ_3.png)
+
+## Multi-player Alpha-Beta Pruning
+Reading
+Korf, 1991, Multi-player alpha-beta pruning.
+
+In the above paper, you will get a chance to generalize minimax search techniques to games with more than three players. As you'll see, alpha-beta pruning doesn't work quite as effectively in this case as in the general case. Here are a few questions to keep in mind while reading through this paper:
+
+Why might alpha-beta pruning only work well in the two player case?
+How does the size of the search tree change with more than two players?
+
+## Probabilistic game
+
+For a Probabilistic game like backgammon you moves are limited each term base on the roles of two dice since you cant know the results of the dice ahead of time, it would seem at first that you can't do a game tree.
+You can use an algorithm called **Expectimax**
+
+### Sloppy Isolation
+
+To show how Probabilistic games work, here is a version of isolation called Sloppy isolation.
+In this game, player may not actually move where they intended.
+
+![sloppy](/images/sloppy_isolation.png)
+
+#### Suppose the computer player is in place where moving is very constrained.
+- Here the computer player is moving to the right, it can't go beyond the border, In that case, there is a **100%** chane it'll land on the intended square.
+
+![constrains](/images/sloppy_isolation_constrain1.png)
+
+- Here, if the computer player is trying to move to the last square, there's a  **90%** of hitting its intended square and a **10%** chance of it falling short.
+
+![constrains](/images/sloppy_isolation_constrain2.png)
+
+- Similarly, if our computer player is just trying to move over by one, there is a **90%** chance it will hit  the square, and a **10%** chance it will overshoot.
+
+![constrains](/images/sloppy_isolation_constrain3.png)
+
+## Sloppy Isolation Expectedmax
+
+
+## Alpha-Beta Expectedmax
+
+![abexpected max](images/alpha-beta-expectedmax.png)
+
+The leftmost branches values calculated the probababilty chance percentage * the (min or max) value of the node.
+
+#### left branch.
+- $0.1*8$
+- $0.5*5$
+- $0.4*8$
+- $= 0.1*8 + 0.5*5 + 0.4*8$
+- $6.5$
+
+#### middle branch
+- $0.5*0$
+- $0.5*5$
+- $= 0.5*0 + 0.5*5$
+- $= $
+
+#### right branch
